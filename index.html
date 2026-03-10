@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nana & Grace Adventures - Book Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff5e6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Floating background elements */
+        .bg-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 100px;
+            animation: float-cloud 40s infinite linear;
+        }
+
+        .cloud1 { width: 120px; height: 60px; top: 10%; left: -150px; animation-duration: 35s; }
+        .cloud2 { width: 80px; height: 40px; top: 30%; left: -100px; animation-duration: 45s; }
+        .cloud3 { width: 100px; height: 50px; top: 60%; left: -120px; animation-duration: 50s; }
+
+        @keyframes float-cloud {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 200px)); }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffdde1 100%);
+            padding: 20px 0;
+            box-shadow: 0 5px 30px rgba(255, 154, 158, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            border: 4px solid #fff;
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-size: 28px;
+            font-weight: 900;
+            color: #5a3e36;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.5);
+        }
+
+        .logo-sub {
+            font-size: 14px;
+            color: #8b6f5c;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #5a3e36;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #ff6b9d;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .cart-button {
+            background: linear-gradient(135deg, #ff6b9d, #ff9966);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cart-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,107,157,0.5);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff3838;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            border: 2px solid white;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(180deg, #a8edea 0%, #ffd6e8 100%);
+            padding: 80px 30px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-logo-big {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            animation: float-gentle 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+        }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b9d, #c44569, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 22px;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 18px 45px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255,107,157,0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255,107,157,0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #ff6b9d;
+            padding: 18px 45px;
+            border: 3px solid #ff6b9d;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6b9d;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Stats Section */
+        .stats-bar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Books Section */
+        .books-section {
+            padding: 80px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .book-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .book-cover {
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-number-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .book-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce-emoji 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce-emoji {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+
+        .book-cover-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .book-info {
+            padding: 30px;
+        }
+
+        .book-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .book-theme {
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .book-description {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .book-price {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255,107,157,0.4);
+        }
+
+        /* Bundle Section */
+        .bundle-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 30px;
+            margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bundle-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        .glow-1 { top: -200px; left: -200px; }
+        .glow-2 { bottom: -200px; right: -200px; animation-delay: 1.5s; }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .bundle-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bundle-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .bundle-title {
+            font-size: 52px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .bundle-description {
+            font-size: 20px;
+            color: rgba(255,255,255,0.95);
+            margin-bottom: 40px;
+        }
+
+        .bundle-pricing {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .bundle-price-main {
+            font-size: 72px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .bundle-price-old {
+            font-size: 32px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: line-through;
+            margin-left: 20px;
+        }
+
+        .bundle-savings {
+            font-size: 24px;
+            color: #ffeaa7;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        .bundle-btn {
+            background: white;
+            color: #667eea;
+            padding: 22px 60px;
+            border: none;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .bundle-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 80px 30px;
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .feature-text {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3436;
+            color: white;
+            padding: 60px 30px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: #ff6b9d;
+            transform: translateY(-5px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 30px;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+        }
+
+        .modal-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #5a3e36;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.5);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b9d;
+        }
+
+        .remove-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #ff3838;
+            transform: scale(1.05);
+        }
+
+        .cart-total {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .total-label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .total-amount {
+            font-size: 48px;
+            font-weight: 900;
+        }
+
+        .checkout-form {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 4px rgba(255,107,157,0.1);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .bundle-title {
+                font-size: 36px;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Decorations -->
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#home" class="logo-container">
+                <div class="logo-circle">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23f5deb3'/%3E%3Ccircle cx='70' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='70' cy='80' r='10' fill='%23000'/%3E%3Ccircle cx='130' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='130' cy='80' r='10' fill='%23000'/%3E%3Cellipse cx='100' cy='120' rx='15' ry='8' fill='%23ff6b9d'/%3E%3Cpath d='M 60 60 Q 50 50 40 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3Cpath d='M 140 60 Q 150 50 160 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3C/svg%3E" alt="Nana & Grace">
+                </div>
+                <div class="logo-text">
+                    <div class="logo-main">Grace & Nana</div>
+                    <div class="logo-sub">Adventure Series</div>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#books">Books</a></li>
+                <li><a href="#bundle">Bundle</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <button class="cart-button" onclick="viewCart()">
+                🛒 Cart
+                <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23f5deb3'/%3E%3Ccircle cx='70' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='70' cy='80' r='10' fill='%23000'/%3E%3Ccircle cx='130' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='130' cy='80' r='10' fill='%23000'/%3E%3Cellipse cx='100' cy='120' rx='15' ry='8' fill='%23ff6b9d'/%3E%3Cpath d='M 60 60 Q 50 50 40 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3Cpath d='M 140 60 Q 150 50 160 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3C/svg%3E" alt="Grace & Nana" class="hero-logo-big">
+            <h1>Welcome to Grace & Nana Adventures! 🌟</h1>
+            <p class="hero-subtitle">Discover 10 magical educational adventures that celebrate the special bond between grandmothers and grandchildren. Each beautifully illustrated story teaches valuable lessons about science, community, and caring for others. Perfect for ages 3-7!</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="document.getElementById('books').scrollIntoView({behavior: 'smooth'})">
+                    🎨 Explore Books
+                </button>
+                <button class="btn-secondary" onclick="document.getElementById('bundle').scrollIntoView({behavior: 'smooth'})">
+                    📚 View Bundle
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Adventure Books</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Ages 3-7</div>
+                <div class="stat-label">Perfect For</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Educational Fun</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">❤️</div>
+                <div class="stat-label">Family Bonding</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Section -->
+    <section class="books-section" id="books">
+        <div class="section-header">
+            <h2 class="section-title">📚 Complete Book Collection</h2>
+            <p class="section-subtitle">Join Grace and Nana on their amazing adventures!</p>
+        </div>
+
+        <div class="books-grid">
+            <!-- Book 1 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);">
+                    <div class="book-number-badge">BOOK 1</div>
+                    <div class="book-emoji">🦁</div>
+                    <div class="book-cover-title">The Big Zoo Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">The Big Zoo Adventure</h3>
+                    <div class="book-theme">🦁 Animal Education & Discovery</div>
+                    <p class="book-description">Nana and Grace discover a magical treasure hunt at the zoo, meeting seven animal friends who teach them about wildlife, habitats, and kindness to all creatures.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 1: The Big Zoo Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 2 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);">
+                    <div class="book-number-badge">BOOK 2</div>
+                    <div class="book-emoji">🏛️</div>
+                    <div class="book-cover-title">Washington DC Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Washington DC Adventure</h3>
+                    <div class="book-theme">🏛️ Civics & Government</div>
+                    <p class="book-description">A trip to the nation's capital teaches Grace about government, monuments, and how even kids' ideas can make a difference in America.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 2: Washington DC Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 3 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #95e1d3 0%, #3dc1b7 100%);">
+                    <div class="book-number-badge">BOOK 3</div>
+                    <div class="book-emoji">🌪️</div>
+                    <div class="book-cover-title">Hurricane Erin Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Hurricane Erin Adventure</h3>
+                    <div class="book-theme">🌪️ Weather Safety & Preparedness</div>
+                    <p class="book-description">When Hurricane Erin approaches, Nana and Grace learn about weather science, emergency preparedness, and how communities help each other.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 3: Hurricane Erin Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 4 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);">
+                    <div class="book-number-badge">BOOK 4</div>
+                    <div class="book-emoji">🚀</div>
+                    <div class="book-cover-title">Space Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Space Adventure</h3>
+                    <div class="book-theme">🚀 STEM & Astronomy</div>
+                    <p class="book-description">At the planetarium, they meet astronaut Dr. Sarah Martinez who teaches them about planets, rockets, and reaching for the stars with big dreams.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 4: Space Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 5 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);">
+                    <div class="book-number-badge">BOOK 5</div>
+                    <div class="book-emoji">🌱</div>
+                    <div class="book-cover-title">Garden Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Garden Adventure</h3>
+                    <div class="book-theme">🌱 Nature & Growth</div>
+                    <p class="book-description">Uncle David's community garden becomes a classroom for learning about plants, patience, cultural diversity, and how gardens grow more than vegetables.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 5: Garden Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 6 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #fdcb6e 0%, #f39c12 100%);">
+                    <div class="book-number-badge">BOOK 6</div>
+                    <div class="book-emoji">⏰</div>
+                    <div class="book-cover-title">Time Travel Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Time Travel Adventure</h3>
+                    <div class="book-theme">⏰ Family History & Heritage</div>
+                    <p class="book-description">Exploring Nana's attic leads to a journey through time, discovering how life has changed while family love remains constant across generations.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 6: Time Travel Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 7 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);">
+                    <div class="book-number-badge">BOOK 7</div>
+                    <div class="book-emoji">🌊</div>
+                    <div class="book-cover-title">Ocean Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Ocean Adventure</h3>
+                    <div class="book-theme">🌊 Marine Biology & Conservation</div>
+                    <p class="book-description">Dr. Ocean Chen guides them through the aquarium and beach, teaching about sea creatures, ocean protection, and environmental responsibility.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 7: Ocean Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 8 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #f093fb 0%, #c471f5 100%);">
+                    <div class="book-number-badge">BOOK 8</div>
+                    <div class="book-emoji">👩‍🍳</div>
+                    <div class="book-cover-title">Cooking Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Cooking Adventure</h3>
+                    <div class="book-theme">👩‍🍳 Culinary Arts & Science</div>
+                    <p class="book-description">Chef Isabella teaches that cooking is science, art, and love combined, as Grace creates a special birthday meal for Cousin Jake.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 8: Cooking Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 9 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);">
+                    <div class="book-number-badge">BOOK 9</div>
+                    <div class="book-emoji">🎵</div>
+                    <div class="book-cover-title">Music Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Music Adventure</h3>
+                    <div class="book-theme">🎵 Musical Arts & Expression</div>
+                    <p class="book-description">Mr. Marcus Williams shares the universal language of music, teaching rhythm, melody, and how songs connect cultures and express emotions.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 9: Music Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book 10 -->
+            <div class="book-card">
+                <div class="book-cover" style="background: linear-gradient(135deg, #00b894 0%, #00a383 100%);">
+                    <div class="book-number-badge">BOOK 10 - FINALE</div>
+                    <div class="book-emoji">🏘️</div>
+                    <div class="book-cover-title">Neighborhood Adventure</div>
+                </div>
+                <div class="book-info">
+                    <h3 class="book-title">Neighborhood Adventure</h3>
+                    <div class="book-theme">🏘️ Community Heroes - Series Finale</div>
+                    <p class="book-description">The series concludes with Grace organizing Community Heroes Day, celebrating everyone who makes their neighborhood special and discovering that anyone can be a hero.</p>
+                    <div class="book-footer">
+                        <div class="book-price">$12.99</div>
+                        <button class="add-btn" onclick="addToCart('Book 10: Neighborhood Adventure', 12.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bundle Section -->
+    <section class="bundle-section" id="bundle">
+        <div class="bundle-glow glow-1"></div>
+        <div class="bundle-glow glow-2"></div>
+        <div class="bundle-content">
+            <div class="bundle-badge">🎁 SPECIAL OFFER</div>
+            <h2 class="bundle-title">Complete Series Bundle</h2>
+            <p class="bundle-description">Get all 10 Grace & Nana adventures in one beautiful collection! Perfect for gift-giving, classrooms, or building your family library.</p>
+            <div class="bundle-pricing">
+                <div class="bundle-price-main">$99.99 <span class="bundle-price-old">$129.90</span></div>
+                <div class="bundle-savings">✨ Save $29.91 (23% OFF!)</div>
+            </div>
+            <button class="bundle-btn" onclick="addToCart('Complete 10-Book Series Bundle', 99.99)">🎉 Buy Bundle Now</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="section-header">
+                <h2 class="section-title">Why Families Love This Series ❤️</h2>
+                <p class="section-subtitle">More than just books - a journey of learning and love!</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Beautifully Illustrated</h3>
+                    <p class="feature-text">Each book features vibrant, engaging illustrations that bring Grace and Nana's adventures to life.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Educational Content</h3>
+                    <p class="feature-text">Age-appropriate lessons covering STEM, arts, civics, and social-emotional learning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌈</div>
+                    <h3 class="feature-title">Diverse & Inclusive</h3>
+                    <p class="feature-text">Characters and stories that reflect our beautiful, diverse world and celebrate all families.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👵👧</div>
+                    <h3 class="feature-title">Multi-Generational</h3>
+                    <p class="feature-text">Celebrates the special bond between grandparents and grandchildren through heartwarming stories.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">Discussion Questions</h3>
+                    <p class="feature-text">Each book includes thoughtful questions to spark family conversations and deeper learning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title">Perfect for Ages 3-7</h3>
+                    <p class="feature-text">Carefully crafted stories that grow with your child, perfect for bedtime or classroom reading.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23f5deb3'/%3E%3Ccircle cx='70' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='70' cy='80' r='10' fill='%23000'/%3E%3Ccircle cx='130' cy='80' r='25' fill='%23fff'/%3E%3Ccircle cx='130' cy='80' r='10' fill='%23000'/%3E%3Cellipse cx='100' cy='120' rx='15' ry='8' fill='%23ff6b9d'/%3E%3Cpath d='M 60 60 Q 50 50 40 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3Cpath d='M 140 60 Q 150 50 160 60' stroke='%23000' fill='none' stroke-width='3'/%3E%3C/svg%3E" alt="Grace & Nana" class="footer-logo">
+            <h3>Stay Connected with Grace & Nana!</h3>
+            <p>Follow their adventures and get updates on new releases</p>
+            <div class="social-links">
+                <a href="#" class="social-btn">📘</a>
+                <a href="#" class="social-btn">📷</a>
+                <a href="#" class="social-btn">🐦</a>
+                <a href="#" class="social-btn">✉️</a>
+            </div>
+            <p style="margin-top: 30px; opacity: 0.7;">© 2024 Grace and Nana Adventures. All rights reserved.</p>
+            <p style="opacity: 0.7;">Perfect for ages 3-7 • Educational • Heartwarming • Inspiring</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🛒 Your Shopping Cart</h2>
+                <button class="close-btn" onclick="closeCart()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Cart content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        
+        function addToCart(bookName, price) {
+            cart.push({name: bookName, price: price, id: Date.now()});
+            updateCartCount();
+            
+            // Show success notification
+            alert(`✅ "${bookName}" has been added to your cart!`);
+        }
+        
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+        
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartCount();
+            renderCart();
+        }
+        
+        function viewCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.add('active');
+            renderCart();
+        }
+        
+        function closeCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.remove('active');
+        }
+        
+        function renderCart() {
+            const modalBody = document.getElementById('modalBody');
+            
+            if (cart.length === 0) {
+                modalBody.innerHTML = `
+                    <div class="empty-cart">
+                        <div class="empty-icon">🛒</div>
+                        <h3 style="font-size: 28px; margin-bottom: 15px; color: #333;">Your cart is empty</h3>
+                        <p style="color: #666; margin-bottom: 30px;">Start your adventure by adding some books!</p>
+                        <button class="btn-primary" onclick="closeCart()">Continue Shopping</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let total = 0;
+            let cartHTML = '<div>';
+            
+            cart.forEach(item => {
+                total += item.price;
+                cartHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toFixed(2)}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                `;
+            });
+            
+            cartHTML += '</div>';
+            
+            cartHTML += `
+                <div class="cart-total">
+                    <div class="total-label">Total Amount</div>
+                    <div class="total-amount">${total.toFixed(2)}</div>
+                </div>
+                
+                <div class="checkout-form">
+                    <h3 style="font-size: 24px; margin-bottom: 25px; color: #333;">📝 Checkout Information</h3>
+                    <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-input" id="fullName" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-input" id="email" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-input" id="phone" required placeholder="(123) 456-7890">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Shipping Address *</label>
+                            <textarea class="form-input" id="address" rows="3" required placeholder="Street address, city, state, ZIP code"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Order Notes (Optional)</label>
+                            <textarea class="form-input" id="notes" rows="2" placeholder="Any special instructions or gift messages?"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="checkout-btn">Complete Purchase - ${total.toFixed(2)}</button>
+                    </form>
+                </div>
+            `;
+            
+            modalBody.innerHTML = cartHTML;
+        }
+        
+        function handleCheckout(event) {
+            event.preventDefault();
+            
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                notes: document.getElementById('notes').value,
+                items: cart,
+                total: cart.reduce((sum, item) => sum + item.price, 0)
+            };
+            
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+                <div class="success-message">
+                    <div class="success-icon">🎉</div>
+                    <h3 style="font-size: 32px; color: #00b894; margin-bottom: 20px;">Order Confirmed!</h3>
+                    <p style="font-size: 18px; color: #333; margin-bottom: 10px;"><strong>Thank you, ${formData.fullName}!</strong></p>
+                    <p style="font-size: 16px; color: #666; margin-bottom: 15px;">Your order for <strong>${cart.length} book${cart.length > 1 ? 's' : ''}</strong> has been received.</p>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                        <p style="font-size: 18px; color: #333;"><strong>Total: ${formData.total.toFixed(2)}</strong></p>
+                    </div>
+                    <p style="font-size: 15px; color: #666; margin-bottom: 15px;">We'll send a confirmation email to<br><strong>${formData.email}</strong><br>with payment instructions and shipping details.</p>
+                    <p style="font-size: 13px; color: #999; margin: 20px 0;">Order Reference: #NG${Date.now()}</p>
+                    <button class="btn-primary" onclick="closeCart(); cart = []; updateCartCount();" style="margin-top: 20px;">Continue Shopping</button>
+                </div>
+            `;
+            
+            console.log('Order submitted:', formData);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('cartModal');
+            if (event.target === modal) {
+                closeCart();
+            }
+        }
+    </script>
+</body>
+</html>
